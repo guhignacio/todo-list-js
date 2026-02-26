@@ -34,7 +34,8 @@ btnAdicionar.addEventListener('click', () => {
     const btnExcluir= document.createElement('button');
     btnExcluir.textContent = 'Excluir';
 
-    btnExcluir.addEventListener('click',() => {
+    btnExcluir.addEventListener('click',(event) => {
+        event.stopPropagation();
         item.remove();
     })
 

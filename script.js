@@ -27,6 +27,10 @@ btnAdicionar.addEventListener('click', () => {
     const item = document.createElement('li');
     item.textContent = novaTarefa;
 
+    item.addEventListener('click', () => {
+        item.classList.toggle('concluida');
+    })
+
     const btnExcluir= document.createElement('button');
     btnExcluir.textContent = 'Excluir';
 
@@ -36,6 +40,6 @@ btnAdicionar.addEventListener('click', () => {
 
     item.appendChild(btnExcluir);
     lista.appendChild(item);
-    
+
     tarefa.value = '';
 })

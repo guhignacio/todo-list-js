@@ -21,26 +21,29 @@ btnAdicionar.addEventListener('click', () => {
         console.log('Tarefa muito curta');
         return;
     }
-    
+
     console.log('Validações ok');
-    
+
     const item = document.createElement('li');
     item.textContent = novaTarefa;
 
-    item.addEventListener('click', () => {
-        item.classList.toggle('concluida');
-    })
-
-    const btnExcluir= document.createElement('button');
+    const btnExcluir = document.createElement('button');
     btnExcluir.textContent = 'Excluir';
-
-    btnExcluir.addEventListener('click',(event) => {
-        event.stopPropagation();
-        item.remove();
-    })
 
     item.appendChild(btnExcluir);
     lista.appendChild(item);
 
     tarefa.value = '';
 })
+lista.addEventListener('click', (event) => {
+    if (event.target.tagName === 'BUTTON') {
+        event.target.parentElement.remove();
+        return;
+    }
+
+    if (event.target.classList.contains('concluida')) {
+        event.target.classList.remove('concluida');
+    } else {
+        event.target.classList.add('concluida');
+    }
+});

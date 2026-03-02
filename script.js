@@ -4,51 +4,28 @@ const lista = document.querySelector('ul');
 
 carregarTarefas();
 
-btnAdicionar.addEventListener('click', () => {
-    console.log('Você adicionou: ' + tarefa.value);
+btnAdicionar.addEventListener('click', adicionarTarefa);
 
-    const novaTarefa = tarefa.value;
-
-    console.log(
-        'Texto:', novaTarefa,
-        'Tamanho:', novaTarefa.length,
-        'Tipo:', typeof novaTarefa
-    )
-    if (novaTarefa === '') {
-        console.log('Tarefa vazia');
-        alert('A tarefa não pode ser vazia');
-        return;
-    } else if (novaTarefa.length < 3) {
-        alert('A tarefa deve ter mais de 3 caracteres');
-        console.log('Tarefa muito curta');
-        return;
+tarefa.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+        adicionarTarefa();
     }
-
-    console.log('Validações ok');
-
-    const item = document.createElement('li');
-    item.textContent = novaTarefa;
-
-    const btnExcluir = document.createElement('button');
-    btnExcluir.textContent = 'Excluir';
-
-    item.appendChild(btnExcluir);
-    lista.appendChild(item);
-    salvarTarefas();
-    tarefa.value = '';
 })
-lista.addEventListener('click', (event) => {
-    if (event.target.tagName === 'BUTTON') {
+
+lista.addEventListener('Click', (event) => {
+    if (event.tarfet.name === 'button') {
         event.target.parentElement.remove();
         salvarTarefas();
         return;
     }
 
     if (event.target.tagName === 'LI') {
-        event.target.classList.toggle('concluida');
+        event.target, classList.toggle('concluida');
         salvarTarefas();
-    } 
+    }
 });
+
+
 
 function salvarTarefas() {
     const itens = lista.querySelectorAll('li');
@@ -87,4 +64,25 @@ function carregarTarefas() {
         lista.appendChild(item);
 
     });
+}
+function adicionarTarefa() {
+    const novaTarefa = tarefa.value;
+
+    if (novaTarefa === '') {
+        alert('A tarefa não pode ser vazia');
+        return;
+    } else if (novaTarefa.length < 3) {
+        alert('A tarefa deve ter mais de 3 caracteres');
+        return;
+    }
+
+    const item = document.createElement('li');
+    item.textContent = novaTarefa;
+    const btnExcluir = document.createElement('button');
+    btnExcluir.textContent = 'Excluir';
+
+    item.appendChild(btnExcluir);
+    lista.appendChild(item);
+    salvarTarefas();
+    tarefa.value = '';
 }

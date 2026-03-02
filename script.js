@@ -12,15 +12,15 @@ tarefa.addEventListener('keydown', (event) => {
     }
 })
 
-lista.addEventListener('Click', (event) => {
-    if (event.tarfet.name === 'button') {
+lista.addEventListener('click', (event) => {
+    if (event.target.tagName === 'BUTTON') {
         event.target.parentElement.remove();
         salvarTarefas();
         return;
     }
 
     if (event.target.tagName === 'LI') {
-        event.target, classList.toggle('concluida');
+        event.target.classList.toggle('concluida');
         salvarTarefas();
     }
 });

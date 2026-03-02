@@ -13,18 +13,27 @@ tarefa.addEventListener('keydown', (event) => {
 })
 
 lista.addEventListener('click', (event) => {
-    if (event.target.tagName === 'BUTTON') {
-        event.target.parentElement.remove();
+    const li = event.target.closest('li');
+    if (!li) return;
+
+    if (event.target.textContent === 'Excluir') {
+        li.remove();
         salvarTarefas();
         return;
     }
 
-    if (event.target.tagName === 'LI') {
-        event.target.classList.toggle('concluida');
-        salvarTarefas();
+    if (event.target.textContent === 'Editar') {
+        editarTarefa(li);
+        return;
     }
 });
 
+lista.addEventListener('dblclick', (event) => {
+    const li = event.target.closest('li');
+    if (!li) return;
+
+    editarTarefa(li);
+});
 
 
 function salvarTarefas() {
@@ -59,7 +68,10 @@ function carregarTarefas() {
 
         const btnExcluir = document.createElement('button');
         btnExcluir.textContent = 'Excluir';
+        const btnEditar = document.createElement('button');
+        btnEditar.textContent = 'Editar';
 
+        item.appendChild(btnEditar);
         item.appendChild(btnExcluir);
         lista.appendChild(item);
 
@@ -81,8 +93,51 @@ function adicionarTarefa() {
     const btnExcluir = document.createElement('button');
     btnExcluir.textContent = 'Excluir';
 
+    const btnEditar = document.createElement('button');
+    btnEditar.textContent = 'Editar';
+
+    item.appendChild(btnEditar);
     item.appendChild(btnExcluir);
     lista.appendChild(item);
     salvarTarefas();
     tarefa.value = '';
+}
+function editarTarefa(li) {
+    const textoNode = li.firstChild;
+    const textoAtual = textoNode.textContent;
+
+    const input = document.createElement('input');
+    input.type = 'text'; // Correção do ponto
+    input.value = textoAtual;
+
+    textoNode.replaceWith(input);
+    input.focus();
+
+    let finalizado = false;
+
+    function salvarEdicao() {
+        if (finalizado) return;
+        finalizado = true;
+
+        const novoTexto = input.value.trim(); // Padronizado para CamelCase
+
+        if (novoTexto === '' || novoTexto.length < 3) {
+            alert('A tarefa deve ter mais de 3 caracteres');
+            input.replaceWith(document.createTextNode(textoAtual));
+            return;
+        }
+
+        input.replaceWith(document.createTextNode(novoTexto));
+        salvarTarefas();
+    }
+
+    input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') salvarEdicao();
+        if (e.key === 'Escape') {
+            finalizado = true;
+            input.replaceWith(document.createTextNode(textoAtual));
+        }
+    });
+
+    input.addEventListener('blur', salvarEdicao);
 }
